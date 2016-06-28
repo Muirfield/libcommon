@@ -41,3 +41,8 @@ do
   fail "$output"
 done
 
+# 1. retrieve pocketmine (dev) channel
+# 2. retreive any dependancy plugins
+# 3. build plugin
+# 4. install sample PocketMine data
+# 5. run tests
