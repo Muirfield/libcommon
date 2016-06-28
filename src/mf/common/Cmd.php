@@ -21,7 +21,7 @@ abstract class Cmd {
    * @param str $cmd - command to execute
    * @param bool $show - show commands being executed
    */
-  static public function execAs(CommandSender $sender,$cmd,$show=true) {
+  static public function execAs(CommandSender $sender,$cmd,$show=TRUE) {
     if($show)$sender->sendMessage("CMD> $cmd");
     $sender->getServer()->dispatchCommand($sender,$cmd);
   }
@@ -48,7 +48,7 @@ abstract class Cmd {
    * @param str $cmd - command to execute
    * @param bool $show - show commands being executed
    */
-  static public function sysExec(Player $sender, $cmd, $show = true) {
+  static public function sysExec(Player $sender, $cmd, $show = TRUE) {
     if ($show) $sender->sendMessage("CMD> $cmd");
     if ($sender->isOp()) {
       $sender->getServer()->dispatchCommand($sender,$cmd);
@@ -115,9 +115,9 @@ abstract class Cmd {
   static public function remove(Server $srv, $cmd) {
     $cmdMap = $srv->getCommandMap();
     $oldCmd = $cmdMap->getCommand($cmd);
-    if ($oldCmd === null) return false;
+    if ($oldCmd === null) return FALSE;
     $oldCmd->setLabel($cmd."_disabled");
     $oldCmd->unregister($cmdMap);
-    return true;
+    return TRUE;
   }
 }

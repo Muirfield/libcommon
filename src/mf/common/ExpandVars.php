@@ -223,6 +223,21 @@ class ExpandVars {
     return "'".strtr($str,$merged)."'";
   }
   /**
+   * Convert $str into a php expression
+   * @param str $str - php expression with variable expansions
+   * @return str - converted string
+   */
+  public function phpexpand($str) {
+    $merged = [];
+    foreach ($this->varPhp as $a => $b) {
+      $merged[$a] = $b;
+    }
+    foreach ($this->constStr as $a=>$b) {
+      $merged[$a] = "'".str_replace("'","\\'",$b)."'";
+    }
+    return strtr($str,$merged);
+  }
+  /**
    * Prepares a $str converting into an object that can be used for variable expansion
    * @param str $str - string to prepare
    * @param BaseStrVar|DynamicStrVar - string object
@@ -256,6 +271,7 @@ class ExpandVars {
   }
   /**
    * Return a server wide instance...
+   * @param Server $owner - Server instance
    */
   static public function getVars(Server $owner) {
     $inst = Singleton::getInstance(self::INSTANCE_ID,self::API);
