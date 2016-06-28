@@ -31,4 +31,5 @@ abstract class mcc extends mcbase {
     }
     return self::_("%1%-mode",$mode);
   }
+}
 

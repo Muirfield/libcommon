@@ -3,7 +3,7 @@
 <!-- template: header.md -->
 <!-- end-include -->
 <!-- meta: API = http://muirfield.github.io/libcommon/apidocs/index.html -->
-
+<!-- php:$copyright="2016"; -->
 ## Overview
 
 `libcommon` implements functionality that can be used in other plugins,
@@ -84,4 +84,47 @@ a plugin `.phar` file or as a stand-alone plugin.
 - GetMotdAsyncTask
 - QueryAsyncTask
 - xPaw MinecraftQuery
-- 
+
+
+## Changes
+
+- 2.0.0: Complete rewrite
+
+- 1.92.0: Update to new API
+  * Added a FastTransfer class, with temporary work-around
+- 1.91.0: De-bundle
+  * New modules: TPUtils, ShoppingCart, SignUtils, SkinUtils, SpySession
+  * De-bundled, now it is just a library again.  All sub-commands were moved
+    to GrabBag.
+  * Bug-Fixes: Cmd, InvUtils, Session, ShieldSession, BaseSelector
+- 1.90.0: Major Update 2
+  * MoneyAPI bug fix
+  * Fixed BasicPlugin bug
+  * Lots of new API features.
+  * Added sub-commands
+  * Bug Fixes:
+    * MoneyAPI crash
+    * BasicPlugin permission dispatcher
+  * API Features
+    * GetMotdAsyncTask
+    * Session management
+    * FileUtils
+    * ArmorItems
+    * Variables
+    * PMScripts
+    * ItemName can load user defined tables
+    * SubCommandMap spinned-off from BasicPlugin
+  * Sub commands
+    * DumpMsgs
+    * echo and basic echo
+    * rc
+    * motd utils
+    * version
+    * trace
+- 1.1.0: Update 1
+  * Added ItemName class (with more item names)
+  * Removed MPMU::itemName
+- 1.0.0: First release
+
+<!-- template: license/gpl2.md -->
+<!-- end-include -->

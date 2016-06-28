@@ -77,7 +77,7 @@ abstract class MPMU {
     $pl = $server->getServer()->getPlayer($n);
     if ($pl === NULL) {
       if ($c == NULL)
-	$server->getLogger()->error(mcc:_("%1% not found", $n));
+	$server->getLogger()->error(mcc::_("%1% not found", $n));
       else
 	$c->sendMessage(mc::_("%1% not found", $n));
     }

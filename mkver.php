@@ -30,21 +30,16 @@ if (!isset($manifest["name"]) || !isset($manifest["version"])) die("Incomplete p
 
 echo $manifest['version'].PHP_EOL;
 
-$cnt = 0;
 foreach ($argv as $dir) {
   foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)) as $s){
     if (!is_file($s)) continue;
-    if (preg_match('/\.[pP][hH][pP]$/' ,$s)) {
-      $otxt = file_get_contents($s);
-      if (preg_match('/\n\s*const\s+VERSION\s*=\s*"([^"]+)";/',$otxt,$mv,PREG_OFFSET_CAPTURE)) {
-	$ntxt = substr($otxt,0,$mv[1][1]).$manifest['version'].substr($otxt,$mv[1][1]+strlen($mv[1][0]));
-	if ($ntxt != $otxt) {
-	  echo "Updating $s\n";
-	  file_put_contents($s,$ntxt);
-	  ++$cnt;
-	}
-      }
-    }
+    if (!preg_match('/\.[pP][hH][pP]$/' ,$s)) continue;
+    $otxt = file_get_contents($s);
+    if (!preg_match('/\n\s*const\s+VERSION\s*=\s*"([^"]+)";/',$otxt,$mv,PREG_OFFSET_CAPTURE)) continue;
+    $ntxt = substr($otxt,0,$mv[1][1]).$manifest['version'].substr($otxt,$mv[1][1]+strlen($mv[1][0]));
+    if ($ntxt == $otxt) continue;
+
+    echo "Updating $s\n";
+    file_put_contents($s,$ntxt);
   }
 }
-echo "Files changed: $cnt\n";

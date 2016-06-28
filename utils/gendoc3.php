@@ -1,6 +1,6 @@
 <?php
 //= syntax
-//: # Embedded documentation syntax
+//: # GenDoc3 Embedded documentation syntax
 //:
 //: Embedded documentation is a "//" comment in PHP with the following text:
 //:
@@ -22,19 +22,26 @@
 //:
 //: If the "=" or "#" tags are not used, the current file name is used.
 //:
+//: Also in addition, the following strings are looked for:
+//:
+//: - PermUtils::add - these lines are added to the `rtperms` snippet.
+//: - "# key" => "description" - these lines are added to the last
+//:   snippet section found as a definition list.
+//:
+//= doc-format
+//: # Document Format
+//:
+//: Document will look for the following templates codes to perform substitutions:
+//:
+//: - <!-- snippet: SNIPPET -->' : Insert a snippet found in the source code
+//: - <!-- template: template -->' : Insert a Markdown template (which may contain PHP codes)
+//: - <!-- end-include -->' : Terminates a template/snippet.
+//: - <!--$varname-->value<!--$--> : Looks up varname and replace value with it.
+//: - [varname](value) : Looks up varname and replaces value with it.
+//:
 
 /**
  * Analyze PHP source and extract markup.
- *
- * The following mark-up is detected:
- *
- * - PermUtils::add - these lines are added to "rtperms".
- * - "# key" => "description" - these lines are added to the last
- *   snippet section found.
- * - //= - this lines indicate a new snippet with the provided section name
- * - //> - add a line to the current snippet (escaping HTML entitites)
- * - //# - define a section but also adds the text to the snippet.
- * - //: - add text to the current snippet.
  *
  * @param str $src - path to files
  * @param array &$snippets - array that will received markup.
@@ -140,7 +147,7 @@ function analyze_tree($dir,&$snippets) {
  *
  * - <!-- snippet: SNIPPET -->' : Tagged with "<SNIPPET>\nsnippet-id"
  * - <!-- template: template -->' : Tagged with "<TEMPLATE>\ntemplate name"
- * - <!-- end-include --> : signas the end of a template/snippet
+ * - <!-- end-include --> : signals the end of a template/snippet
  * 
  *
  * @param str $otxt - text to analyze

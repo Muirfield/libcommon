@@ -1,0 +1,43 @@
+#!/bin/sh
+#
+# Testing
+#
+echo Using: ${phpcmd:=$HOME/PM/bin/php7/bin/php}
+
+retcode=0
+warn() {
+  echo "$@" 1>&2
+}
+fail() {
+  echo "$@" 1>&2
+  retcode=1
+}
+trap 'exit $retcode' EXIT
+#
+cd $(dirname $0) || exit 1
+
+echo "Version Sanity checks"
+
+if [ -n "${TRAVIS_TAG}" ] ; then
+  ymlver=$(php mkver.php -y plugin.yml)
+  if [ x"${TRAVIS_TAG}" != x"${ymlver}" ] ; then
+    fail "plugin.yml version needs to be updated!"
+  fi
+else
+  describe=$(git describe)
+  ymlver=$(php mkver.php -y plugin.yml)
+  if [ x"${describe}" != x"${ymlver}" ] ; then
+    warn "${describe} != ${ymlver}"
+  fi
+fi
+
+echo "PHP Linting"
+
+# Now we do PHP lint...
+for php in $(find src -name '*.php')
+do
+  output="$($phpcmd -l $php 2>&1)" && continue
+  warn $php:
+  fail "$output"
+done
+

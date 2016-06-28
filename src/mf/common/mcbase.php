@@ -136,15 +136,14 @@ abstract class mcbase {
       $plugin->getLogger()->error("Selected language \"".$lang."\" NOT available");
       $fp = $plugin->getResource("messages/messages.ini");
       if ($fp === NULL) return [];
-	if (!is_dir($plugin->getDataFolder())) mkdir($plugin->getDataFolder());
-	file_put_contents($plugin->getDataFolder()."messages.ini",
+      if (!is_dir($plugin->getDataFolder())) mkdir($plugin->getDataFolder());
+      file_put_contents($plugin->getDataFolder()."messages.ini",
 				"\"DELETE THIS LINE\"=\"".$lang."\"\n".
 				stream_get_contents($fp));
-	$plugin->getLogger()->error("Creating empty \"messages.ini\"");
-	$plugin->getLogger()->error("You may need to delete this file");
-	$plugin->getLogger()->error("when upgrading this plugin or when");
-	$plugin->getLogger()->error("switching langagues in \"pocketmine.yml\".");
-      }
+      $plugin->getLogger()->error("Creating empty \"messages.ini\"");
+      $plugin->getLogger()->error("You may need to delete this file");
+      $plugin->getLogger()->error("when upgrading this plugin or when");
+      $plugin->getLogger()->error("switching langagues in \"pocketmine.yml\".");
       $texts = [];
     }
     $plugin->getLogger()->error("Please consider translating and submitting it");
@@ -152,4 +151,5 @@ abstract class mcbase {
     return $texts;
   }
 }
+
 
