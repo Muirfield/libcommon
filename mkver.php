@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 define('CMD',array_shift($argv));
 error_reporting(E_ALL);

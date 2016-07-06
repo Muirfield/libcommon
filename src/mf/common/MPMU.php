@@ -5,7 +5,7 @@
 namespace mf\common;
 
 use mf\common\Ver;
-use mf\common\mcc;
+use mf\common\mc;
 
 use pocketmine\Server;
 use pocketmine\command\CommandSender;
@@ -74,15 +74,35 @@ abstract class MPMU {
     } else
       return NULL;
     
-    $pl = $server->getServer()->getPlayer($n);
+    $pl = $server->getPlayer($n);
     if ($pl === NULL) {
       if ($c == NULL)
-	$server->getLogger()->error(mcc::_("%1% not found", $n));
+	$server->getLogger()->error(mc::_("%1% not found", $n));
       else
 	$c->sendMessage(mc::_("%1% not found", $n));
     }
     return $pl;
   }
+
+  /**
+   * Takes a player and creates a string suitable for indexing
+   *
+   * @param Player|str $player - Player to index
+   * @return str
+   */
+  static public function sid($player) {
+    if ($player instanceof CommandSender) $player = $player->getName();
+    return strtolower($player);
+  }
+}
+
+
+
+
+/**
+ * My PocketMine Utils class
+ */
+abstract class XPMU {
   /**
    * Check prefixes
    * @param str $txt - input text
@@ -94,28 +114,7 @@ abstract class MPMU {
     if (strtolower(substr($txt,0,$ln)) != $tok) return null;
     return trim(substr($txt,$ln));
   }
-}
 
-
-
-
-/**
- * My PocketMine Utils class
- */
-abstract class XPMU {
-
-	/**
-	 * Takes a player and creates a string suitable for indexing
-	 *
-	 * @param Player|str $player - Player to index
-	 * @return str
-	 */
-	static public function iName($player) {
-		if ($player instanceof CommandSender) {
-			$player = strtolower($player->getName());
-		}
-		return $player;
-	}
 	/**
 	 * Send a PopUp, but takes care of checking if there are some
 	 * plugins that might cause issues.

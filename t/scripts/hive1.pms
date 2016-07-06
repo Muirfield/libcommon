@@ -1,0 +1,9 @@
+#
+# Test the HIVE functions *part 1*
+#
+@ $interp->set("value1","one")
+@ $interp->set("value2","two")
+@ $interp->set("value3","three")
+
+echo '.$interp->get("value1").' '.$interp->get("value2").' '.$interp->get("value3").'
+

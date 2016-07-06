@@ -1,0 +1,6 @@
+@ $pm = $server->getPluginManager()->getPlugin('libcommon')
+@ $z = \mf\common\MPMU::getResourceContents($pm,'messages/spa.ini')
+echo '.strlen($z).' bytes
+echo '.\mf\common\MPMU::callPlugin($server,'libcommon','getFilePath',[]).'
+echo '.\mf\common\MPMU::callPlugin($server,['libcommon','1.0'],'getFilePath',[]).'
+echo '.\mf\common\MPMU::callPlugin($server,['libcommon','2.0'],'getFilePath',[]).'

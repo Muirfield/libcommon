@@ -1,5 +1,7 @@
 <?php
-//# ## PMScript
+//= api-features
+//: - Scripts
+//= pmscript
 //:
 //: The PMScript module implements a simple [PHP](https://secure.php.net/)
 //: based scripting engine.  It can be used to enter multiple PocketMine
@@ -98,7 +100,7 @@ class PMScript {
   /** @var str Tagged API for singleton use... i.e. in case of multiple versions of this class */
   const API = '1.0';
   /** @var str Tagged name for singleton use */
-  const INSTANCE_ID = 'mf\common\ExpandVars';
+  const INSTANCE_ID = 'mf\common\PMScript';
 
   /** @var callable[] - prepared scripts cache */
   public $cache;
@@ -144,7 +146,7 @@ class PMScript {
    * @param array $args - command-line arguments (if any)
    * @param bool $cache - use script cache
    */
-  public function runScript(CommandSender $ctx,$cmds, array $args, $cache = FALSE) {
+  public function runScript(CommandSender $ctx,$cmds, array $args = [], $cache = FALSE) {
     if ($cache) {
       if (!isset($this->cache['SCRIPT:'.$cmds]))
 	$this->cache['SCRIPT:'.$cmds] = $this->prepareScript($cmds);
@@ -162,7 +164,7 @@ class PMScript {
    * @param array $args - command-line arguments (if any)
    * @param bool $cache - use script cache
    */
-  public function runFile(CommandSender $ctx,$fname, array $args, $cache = TRUE) {
+  public function runFile(CommandSender $ctx,$fname, array $args = [], $cache = TRUE) {
     if ($cache) {
       if (!isset($this->cache['FILE:'.$fname]))
 	$this->cache['FILE:'.$fname] = $this->prepareFile($fname);
@@ -210,13 +212,13 @@ class PMScript {
       if ($ln{0} == '@') {
         $c = substr($ln,-1);
 	$q = ($c == ':' || $c == ';') ? PHP_EOL : ";\n";
-	$php .= $vars->phpexpand($ln).$q;
+	$php .= $this->vars->phpexpand(substr($ln,1)).$q;
       } else {
-        $php .= '  $interp->exec($ctx,'.$vars->phpfy($ln).');'.PHP_EOL;
+        $php .= '  $interp->exec($ctx,'.$this->vars->phpfy($ln).');'.PHP_EOL;
       }
     }
     $php .= '};';
-    echo "PHP: $php\n";//##DEBUG
+    if (\pocketmine\DEBUG > 1) echo "PHP: $php\n";//##DEBUG
     return eval($php);
   }
   /**
@@ -225,7 +227,7 @@ class PMScript {
    * @param str $cmdline - Command to execute
    */
   public function exec(CommandSender $ctx, $cmdline) {
-    $re = '/^\s*+(op|con|syscon):\s*/';
+    $re = '/^\s*\+(op|con|syscon):\s*/';
     if ($this->opcmds && ($ctx instanceof Player)) {
       if (preg_match($re,$cmdline,$mv)) {
         $cmdline = preg_replace($re,'',$cmdline);
@@ -280,8 +282,8 @@ class PMScript {
    * @param Player $Player|NULL - player pointer
    * @return NULL - in case of error
    */
-  public function getvar($name, $player = NULL) {
-    return $this->vars->get($name, $player);
+  public function getvar($name, Server $server, $player = NULL) {
+    return $this->vars->get($name, $server, $player);
   }
   /**
    * Set a hive variable

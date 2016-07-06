@@ -1,0 +1,9 @@
+@$s = new \specter\api\DummyPlayer('Sid')
+echo '.\mf\common\MPMU::sid($s->getPlayer()).'
+@$s->close()
+
+echo '.\mf\common\MPMU::sid('dummy').'
+echo '.\mf\common\MPMU::sid(new \pocketmine\command\ConsoleCommandSender).'
+echo '.\mf\common\MPMU::sid(new \pocketmine\command\RemoteConsoleCommandSender).'
+
+

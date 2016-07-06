@@ -1,0 +1,8 @@
+cmd
+@$lc = $server->getPluginManager()->getPlugin("libcommon")
+@\mf\common\Cmd::add($lc,$lc,'cmd', [])
+cmd
+@\mf\common\Cmd::remove($server,'list')
+@\mf\common\Cmd::add($lc,$lc,'list',[])
+
+list

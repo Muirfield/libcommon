@@ -1,0 +1,15 @@
+#
+# Compare versions
+#
+@$x = [['1.0','2.0',FALSE],['3.0','2.0',FALSE],['1.1','1.2',FALSE],['2.1','2.0',TRUE],['2.0','<3.0',TRUE]];
+@$x = array_merge($x,[['2.0','~2.0',FALSE],['3.0','>=3.0',TRUE]]);
+@foreach ($x as $q):
+  @list($api,$ver,$res) = $q
+  @$r = \mf\common\Ver::apiCheck($api,$ver);
+  echo '.$api.' : '.$ver.' => '.($r ? 'OK' : 'NO').'
+  @if ($r && $res) continue;
+  @if (!($r || $res)) continue;
+  echo UNEXPECTED RESULT
+  @return
+@endforeach
+

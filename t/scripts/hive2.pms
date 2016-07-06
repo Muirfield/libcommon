@@ -1,0 +1,13 @@
+#
+# Test the HIVE functions *part 2*
+#
+
+echo '.$interp->get("value1").' '.$interp->get("value2").' '.$interp->get("value3").'
+@ $interp->unset("value1")
+echo '.$interp->get("value1",1).'
+
+# Assertions
+@ if ($interp->get("value1",1) != 1) return
+@ if ($interp->get("value2",2) == 2) return
+
+

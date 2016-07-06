@@ -108,7 +108,7 @@ class ExpandVars {
     if ($plugins->getPlugin("RankUp"))  $this->assign("rank", self::class.'::getRankUpRank($player)');
     $this->assign('tps','$server->getTicksPerSecond()');
     $this->assign('tickUsage','$server->getTickUsage()');
-    $this->assign('numPlayers','count($server->getOnelinePlayers())');
+    $this->assign('numPlayers','count($server->getOnlinePlayers())');
     $this->assign('uptimeSecs','floor(microtime(true) - \pocketmine\START_TIME)');
     $this->assign('uptime',self::class.'::duration_format(floor(microtime(true)-\pocketmine\START_TIME))');
     $this->assign('netup','round($server->getNetwork()->getUpload()/1024,2)');
@@ -200,10 +200,10 @@ class ExpandVars {
    * @param Player $Player|NULL - player pointer
    * @return NULL - in case of error
    */
-  public function get($name, $player = NULL) {
+  public function get($name, Server $server, $player = NULL) {
     $key = '{'.$name.'}';
     if (isset($this->constStr[$key])) return $this->constStr[$key];
-    if (isset($this->varPhp[$key])) return eval('return '.$this->varPHP[$key].';');
+    if (isset($this->varPhp[$key])) return eval('return '.$this->varPhp[$key].';');
     return NULL;
   }
   /**

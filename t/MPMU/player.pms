@@ -1,0 +1,8 @@
+@$s = new \specter\api\DummyPlayer('dummytwo')
+@$x = \mf\common\MPMU::getPlayer($server,'dummytwo')
+@ \mf\common\MPMU::getPlayer($server,'nobody')
+@ \mf\common\MPMU::getPlayer($ctx,'nobody')
+
+
+@$s->close()
+

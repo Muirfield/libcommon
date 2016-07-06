@@ -33,7 +33,7 @@ function subcmd_strip(array $args) {
       $txt[] = "";
       switch($mode) {
 	case "view":
-	  if (count($argv) > 1) echo "$f =====\n";
+	  if (count($args) > 1) echo "$f =====\n";
 	  echo implode("\n",$txt);
 	  break;
 	case "write":
@@ -51,7 +51,7 @@ function subcmd_analyze(array $args) {
     if (is_file($d)) {
       echo "SOURCE: $d\n";
       analyze_php($d,$data);
-    } if (is_dir($d)) {
+    } elseif (is_dir($d)) {
       echo "DIRECTORY: $d\n";
       analyze_tree($d,$data);
     }
@@ -111,9 +111,15 @@ function subcmd_gen(array $args) {
   set_include_path(get_include_path().PATH_SEPARATOR.$path);
 
   $snippets = [];
-  foreach ($args as $phpsrc) {
-    fwrite(STDERR,"Analyzing ".$phpsrc."...");
-    analyze_tree($phpsrc,$snippets);
+  foreach ($args as $d) {
+    if (is_file($d)) {
+      fwrite(STDERR,"Analyzing ".$d."...");
+      analyze_php($d,$snippets);
+    } elseif (is_dir($d)) {
+      fwrite(STDERR,"Analyze tree ".$d."...");
+      analyze_tree($d,$snippets);
+    } else continue;
+    fwrite(STDERR,"\n");
   }
 
   $otxt = file_get_contents($doc);
@@ -123,7 +129,7 @@ function subcmd_gen(array $args) {
   if ($save) {
     if ($otxt != $ntxt) {
       file_put_contents($doc,$ntxt);
-      fwrite(STDERR,"Updaged ".$doc.PHP_EOL);
+      fwrite(STDERR,"Updated ".$doc.PHP_EOL);
     }
   } else {
     echo $ntxt;

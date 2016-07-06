@@ -1,0 +1,12 @@
+@$lc = $server->getPluginManager()->getPlugin("libcommon")
+
+@$cnt = \mf\common\mc::init($lc,$lc->getFilePath())
+echo loaded '.$cnt.' '.\mf\common\mc::n("string","strings",$cnt).'
+
+echo '.\mf\common\mc::_("Hello world").'
+echo '.\mf\common\mc::_("Hi %1% there %2%","one","two").'
+echo '.\mf\common\mc::n("one","many",1).'
+echo '.\mf\common\mc::n("one","many",2).'
+echo '.\mf\common\mc::n("one","many",0).'
+
+

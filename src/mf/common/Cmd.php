@@ -2,11 +2,11 @@
 namespace mf\common;
 
 use pocketmine\command\CommandSender;
-use pocketmine\Server;
 use pocketmine\command\ConsoleCommandSender;
 use pocketmine\command\RemoteConsoleCommandSender;
 use pocketmine\Player;
-
+use pocketmine\Server;
+use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\plugin\Plugin;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\PluginCommand;
@@ -61,10 +61,10 @@ abstract class Cmd {
   /**
    * Chat a message as a given player
    *
-   * @param CommandSender $sender - Entity to impersonate
+   * @param Player $sender - Entity to impersonate
    * @param str $msg - message to send
    */
-  static public function chat(CommandSender $sender,$msg) {
+  static public function chat(Player $sender,$msg) {
     $server = $sender->getServer();
     $server->getPluginManager()->callEvent($ev = new PlayerChatEvent($sender,$msg));
     if ($ev->isCancelled()) return;

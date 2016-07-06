@@ -1,0 +1,4 @@
+@\mf\common\Cmd::console($server, 'say something', ['show'])
+@\mf\common\Cmd::console($server, 'echo yes', ['show','capture'])
+@\mf\common\Cmd::console($server, 'echo no', ['capture'])
+@\mf\common\Cmd::console($server, 'echo well')

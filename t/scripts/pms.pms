@@ -1,0 +1,34 @@
+#
+# Test the main PMScript functionality
+#
+
+@ $ii = \mf\common\PMScript::getInterp($server)
+echo '.get_class($ii).'
+
+@ $ii->runScript($ctx,"echo yes\necho no\n")
+
+#
+# Note, we define and assign with $interp
+# but we prepare with $ii, this is to make sure
+# that aliasing is working right
+#
+@ $interp->define('newconst','Constance me')
+@ $interp->assign('newvar','time()')
+@ $code1 = $ii->prepareScript('echo {newconst} {newvar}')
+echo '.print_r($code1).'
+
+@ $tmp = $server->getDataPath().'script.pms'
+@ file_put_contents($tmp,"echo File1\necho File2")
+@ $ii->runFile($ctx,$tmp)
+
+@ $code2 = $ii->prepareFile($tmp)
+echo '.print_r($code2).'
+
+@ $ii->runCode($ctx,$code1,[])
+@ $ii->runCode($ctx,$code2,[])
+
+echo '.$ii->getvar('newvar', $server, $player).'
+@ $ii->runScript($ctx,"echo '.\$interp->getvar('newvar',\$server,\$player).'\n")
+
+@ unlink($tmp)
+

@@ -1,26 +1,26 @@
 <?php
-  $h = [];
+  $hdr = [];
   foreach (["name","description","depend","softdepend","api","website"] as $attr) {
     if (!isset($yaml[$attr])) {
-      $h[$attr] = "\n";
+      $hdr[$attr] = "\n";
       continue;
     }
     if (is_array($yaml[$attr])) {
-      $h[$attr] = implode(', ', $yaml[$attr])."\n";
+      $hdr[$attr] = implode(', ', $yaml[$attr])."\n";
     } else {
-      $h[$attr] = $yaml[$attr]."\n";
+      $hdr[$attr] = $yaml[$attr]."\n";
     }
   }
   foreach (["Categories"] as $attr) {
-    $h[$attr] = (isset($meta[$attr]) ? $meta[$attr] : "N/A")."\n";
+    $hdr[$attr] = (isset($meta[$attr]) ? $meta[$attr] : "N/A")."\n";
   }
 ?>
 
-# <?= $h["name"] ?>
+# <?= $hdr["name"] ?>
 
-- Summary: <?= $h["description"] ?>
-- PocketMine-MP version: <?= $h["api"] ?>
-- DependencyPlugins: <?= $h["depend"] ?>
-- OptionalPlugins: <?= $h["softdepend"] ?>
-- Categories: <?= $h["Categories"] ?>
-- WebSite: <?= $h["website"] ?>
+- Summary: <?= $hdr["description"] ?>
+- PocketMine-MP API version: <?= $hdr["api"] ?>
+- DependencyPlugins: <?= $hdr["depend"] ?>
+- OptionalPlugins: <?= $hdr["softdepend"] ?>
+- Categories: <?= $hdr["Categories"] ?>
+- WebSite: <?= $hdr["website"] ?>

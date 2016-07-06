@@ -1,0 +1,10 @@
+#
+# Test modular objects
+#
+plugins
+
+@ $p = $server->getPluginManager()->getPlugin("modular")
+@ if ($p === NULL):
+  echo Failed to load "modular"
+  @ return
+@ endif

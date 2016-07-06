@@ -1,48 +1,45 @@
 #!/bin/sh
 #
-# Testing
-#
-echo Using: ${phpcmd:=$HOME/PM/bin/php7/bin/php}
+. "$(dirname "$(readlink -f "$0")")/utils/init.sh"
+. $utlib/pm.sh
+. $utlib/unitest.sh
 
-retcode=0
-warn() {
-  echo "$@" 1>&2
-}
-fail() {
-  echo "$@" 1>&2
-  retcode=1
-}
 trap 'exit $retcode' EXIT
-#
-cd $(dirname $0) || exit 1
 
-echo "Version Sanity checks"
+[ ! -f plugin.yml ] && fatal "No plugin.yml"
+[ -f README.md ] && $gd3tool gen -w src utils *.php
 
-if [ -n "${TRAVIS_TAG}" ] ; then
-  ymlver=$(php mkver.php -y plugin.yml)
-  if [ x"${TRAVIS_TAG}" != x"${ymlver}" ] ; then
-    fail "plugin.yml version needs to be updated!"
+if [ -d resource/messages ] ; then
+  $mcgen gen resources/messages src $([ -d libcommon/src ] && echo libcommon/src)
+  $mcgen enc resources/messages
+fi
+$mkver src
+ymlver=$($mkver)
+if [ -n "$ymlver" ] ; then
+  if [ -n "$TRAVIS_TAG" ] ; then
+    if [ "$ymlver]" != "$TRAVIS_TAG" ] ; then
+      fail "Plugin.yml version and git tag mismatch"
+    fi
   fi
 else
-  describe=$(git describe)
-  ymlver=$(php mkver.php -y plugin.yml)
-  if [ x"${describe}" != x"${ymlver}" ] ; then
-    warn "${describe} != ${ymlver}"
-  fi
+  fail "Unknown plugin.yml version"
 fi
 
-echo "PHP Linting"
+phplint src utils *.php || fatal "Failed lint"
 
-# Now we do PHP lint...
-for php in $(find src -name '*.php')
-do
-  output="$($phpcmd -l $php 2>&1)" && continue
-  warn $php:
-  fail "$output"
-done
+#LINUX_BUILD="PHP_7.0.3_x86-64_Linux"
+#wget -nv -O- "https://dl.bintray.com/pocketmine/PocketMine/$LINUX_BUILD.tar.gz" | tar -zx > /dev/null 2>&1
+#chmod +x ./bin/php7/bin/*
+#./bin/php7/bin/php -r 'echo 1;'
 
-# 1. retrieve pocketmine (dev) channel
-# 2. retreive any dependancy plugins
-# 3. build plugin
-# 4. install sample PocketMine data
-# 5. run tests
+install_pocketmine
+
+
+$phpcmd $scriptdir/mkplugin.php -o $MPDIR/plugins .
+
+testgroup="$(default_tests t "$@")"
+[ -z "$testgroup" ] && exit
+
+runtests $testgroup
+
+show_results

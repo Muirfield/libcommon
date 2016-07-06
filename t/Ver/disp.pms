@@ -1,0 +1,2 @@
+echo libcommon '.\mf\common\Ver::libcommon().'
+echo API '.\mf\common\Ver::PM().'

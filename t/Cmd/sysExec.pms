@@ -1,0 +1,4 @@
+@$s = new \specter\api\DummyPlayer('dummy3')
+@\mf\common\Cmd::execAs($s->getPlayer(),'plugins')
+@\mf\common\Cmd::sysExec($s->getPlayer(),'plugins')
+@$s->close()

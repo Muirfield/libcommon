@@ -1,0 +1,19 @@
+@$s = new \specter\api\DummyPlayer('dummy3')
+@$p = $s->getPlayer()
+@$vars = \mf\common\ExpandVars::getVars($server)
+
+@$vars->define('dash','#################')
+@$vars->assign('pmversion','$server->getPocketMineVersion()')
+echo '.$vars->get('dash',$server).'
+echo '.$vars->get('pmversion',$server,$p).'
+@$con = '{da'.'sh}';
+@$dyn = '{pm'.'version}';
+echo '.$vars->phpfy($con).'
+echo '.print_r($vars->prepare($con),true).'
+echo '.print_r($vars->prepare($dyn),true).'
+echo '.print_r($vars->expand($con,$server),true).'
+echo '.print_r($vars->expand($dyn,$server),true).'
+echo '.print_r($vars->phpexpand($con),true).'
+echo '.print_r($vars->phpexpand($dyn),true).'
+@$s->close()
+

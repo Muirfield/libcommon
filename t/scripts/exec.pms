@@ -1,0 +1,10 @@
+#
+# Test the OPs functionality
+#
+@ $s = new \specter\api\DummyPlayer('Sid')
+@ $p = $s->getPlayer();
+@ $interp->exec($p,"plugins")
+@ $interp->exec($p,"+op: plugins")
+@ $interp->exec($p,"+con: plugins")
+@ $interp->exec($p,"+syscon: plugins")
+@ $s->close()

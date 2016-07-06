@@ -1,0 +1,16 @@
+#!/bin/sh
+#
+# Run this usually from a pre-commit hook...
+#
+. "$(dirname "$(readlink -f "$0")")/utils/init.sh"
+
+[ ! -f plugin.yml ] && fatal "No plugin.yml"
+[ -f README.md ] && $gd3tool gen -w src utils *.php
+
+if [ -d resource/messages ] ; then
+  $mcgen gen resources/messages src $([ -d libcommon/src ] && echo libcommon/src)
+  $mcgen enc resources/messages
+fi
+
+$mkver src
+phplint src utils *.php || fatal "Failed lint"

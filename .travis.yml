@@ -1,0 +1,10 @@
+language: php
+php:
+- '7.0'
+script:
+- bash test
+
+# We don't really need sudo, the next
+# two lines enable Ubuntu 14 which is needed to run tests.
+sudo: required
+dist: trusty

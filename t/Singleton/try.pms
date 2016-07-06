@@ -1,0 +1,16 @@
+#
+# Test the singleton class
+#
+echo testing uninitialized
+@$x = \mf\common\Singleton::getInstance('test')
+@if ($x !== NULL) return
+@$z = []
+@\mf\common\Singleton::setInstance('test',$z)
+@$x = \mf\common\Singleton::getInstance('test')
+echo testing initialized
+@if ($x === NULL) return
+#
+# Apparently aliasing doesn't work...
+#
+echo done
+

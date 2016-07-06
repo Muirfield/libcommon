@@ -1,0 +1,11 @@
+name: subcmd
+version: 1.0
+main: demo3\Main
+api: 2.0.0
+load: STARTUP
+depend: [libcommon]
+
+description: Modular sub command demo
+author: aliuly
+website: https://github.com/Muirfield/libcommon
+

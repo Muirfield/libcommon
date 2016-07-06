@@ -1,6 +1,5 @@
 <?php
-//= syntax
-//: # GenDoc3 Embedded documentation syntax
+//= gd3syntax
 //:
 //: Embedded documentation is a "//" comment in PHP with the following text:
 //:
@@ -24,20 +23,19 @@
 //:
 //: Also in addition, the following strings are looked for:
 //:
-//: - PermUtils::add - these lines are added to the `rtperms` snippet.
+//: - Perms::add - these lines are added to the `rtperms` snippet.
 //: - "# key" => "description" - these lines are added to the last
 //:   snippet section found as a definition list.
 //:
 //= doc-format
-//: # Document Format
 //:
 //: Document will look for the following templates codes to perform substitutions:
 //:
-//: - <!-- snippet: SNIPPET -->' : Insert a snippet found in the source code
-//: - <!-- template: template -->' : Insert a Markdown template (which may contain PHP codes)
-//: - <!-- end-include -->' : Terminates a template/snippet.
-//: - <!--$varname-->value<!--$--> : Looks up varname and replace value with it.
-//: - [varname](value) : Looks up varname and replaces value with it.
+//> - <!-- snippet: SNIPPET -->' : Insert a snippet found in the source code
+//> - <!-- template: template -->' : Insert a Markdown template (which may contain PHP codes)
+//> - <!-- end-include -->' : Terminates a template/snippet.
+//> - <!--$varname-->value<!--$--> : Looks up varname and replace value with it.
+//> - \[varname\]\(value\) : Looks up varname and replaces value with it.
 //:
 
 /**
@@ -51,7 +49,7 @@ function analyze_php($src,array &$snippets) {
   $scode = basename($src);
   foreach(file($src,FILE_IGNORE_NEW_LINES) as $lni) {
     if (!preg_match('/^\s*\/\/(.) ?(.*)\s*$/',$lni,$mv)) {
-      if (($lno = preg_replace('/^\s*PermUtils::add/',"",$lni)) != $lni) {
+      if (($lno = preg_replace('/^\s*Perms::add/',"",$lni)) != $lni) {
 	$lno = preg_replace('/^[^,]+,\s*/',"",$lno);
 	$lno = preg_replace('/\s*[^"]+$/',"",$lno);
 	if (trim($lno) == "") continue;
@@ -208,6 +206,15 @@ function startsWith($txt,$tok) {
  * @return str[] - Returns an array of strings
  */
 function expand_tags($txt,$snippets,$yaml) {
+  $github = NULL;
+  if (file_exists('.git/config')) {
+    $data = file_get_contents('.git/config');
+    if (preg_match('/\n\s*url\s*=\s*(https?:\/\/github.com\/\S+)/',$data,$mv)) {
+      $github = preg_replace('/\.git$/','',$mv[1]);
+      //fwrite(STDERR,'GITHUB: '.$meta['github'].PHP_EOL);
+    }
+  }
+
   $meta = [];
   $out = [""];
   foreach ($txt as $ln) {
@@ -219,6 +226,7 @@ function expand_tags($txt,$snippets,$yaml) {
       } else {
 	$out[] = "<!-- MISSING SNIPPET: $cm -->";
       }
+      $out[] = "";
     } elseif (($cm = startsWith($ln,"\n<TEMPLATE>\n")) !== null) {
       // Insert a template...
       ob_start();
@@ -227,6 +235,7 @@ function expand_tags($txt,$snippets,$yaml) {
       foreach (explode("\n",ob_get_clean()) as $i) {
 	$out[] = $i;
       }
+      $out[] = "";
     } elseif (preg_match('/<!--\s*php:(.*)\s*-->/',$ln,$mv)) {
       eval($mv[1]);
       $out[] = $ln;
@@ -235,6 +244,25 @@ function expand_tags($txt,$snippets,$yaml) {
       $out[] = $ln;
     } else {
       // Handle embedded text expansions...
+      if ($github !== NULL &&
+	  preg_match_all('/<img id="([^"]+)"([^>]*)>/', $ln, $mv, PREG_OFFSET_CAPTURE|PREG_SET_ORDER)) {
+	$ntxt = '';
+	$start = 0;
+	$repo = explode("/",$github);
+	$repo = $repo[count($repo)-2].'/'.$repo[count($repo)-1];
+	foreach ($mv as $mm) {
+	  $ntxt .= substr($ln,$start,$mm[0][1]- $start);
+	  $img = $mm[1][0];
+	  if (!file_exists("media/".$img)) {
+	    $ntxt .= $mm[0][0];
+	  } else {
+	    $ntxt .= '<img id="'.$img.'" src="https://raw.githubusercontent.com/'.$repo.'/master/media/'.$img.'" style="width:64px;height:64px" width="64" height="64"/>';
+	  }
+	  $start = $mm[0][1]+strlen($mm[0][0]);
+	}
+	$ntxt .= substr($ln,$start);
+	$ln = $ntxt;
+      }
       foreach ([
 	'/<!--\s*\$(\S+)\s*-->([^<]*)<!--\s*\$\s*-->/'=>'<!--$%s-->%s<!--$-->',
 	'/\[(\S+)\]\(([^\)]*)\)/'=>'[%s](%s)'

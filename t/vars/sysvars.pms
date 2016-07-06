@@ -1,0 +1,6 @@
+echo {GOLD}TPS: {tps} TickUsage: {tickUsage}
+echo {GRAY}numPlayers: {numPlayers}
+echo {GREEN}uptimeSecs: {uptimeSecs} uptime: {uptime}
+echo {YELLOW}netup: {netup} netdown {netdown}
+echo {AQUA}mainmem: {mainmem} usedmem: {usedmem} maxmem: {maxmem}
+echo {RED}|{10SPACE}{BLUE}|

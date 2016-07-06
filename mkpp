@@ -1,0 +1,104 @@
+#!/bin/sh
+scriptdir="$(dirname "$(readlink -f "$0")")"
+mkplugin="php $scriptdir/mkplugin.php"
+bind="php $scriptdir/binder.php"
+
+
+fatal() {
+  echo "$@" 1>&2
+  exit 1
+}
+
+outdir="."
+libpaths=()
+srcdir=""
+extrasrc=()
+full=yes
+lite=yes
+yseds=()
+
+
+while [ $# -gt 0 ]
+do
+  case "$1" in
+    -L)
+      echo "Will only build lite version"
+      full=no
+      lite=yes
+      shift
+      continue
+      ;;
+    -F)
+      echo "Will only build full version"
+      full=yes
+      lite=no
+      shift
+      continue
+      ;;
+    -o)
+      [ -z "$2" ] && fatal "Missing argument for -o"
+      outdir="$2"
+      shift 2
+      continue
+      ;;
+    -l)
+      [ -z "$2" ] && fatal "Missing argument for -l"
+      libpaths+=( -l "$2" )
+      shift 2
+      continue
+      ;;
+    --ysed=*)
+      ysed="${1#--ysed=}"
+      [ -z "$ysed" ] && fatal "Missing argument for --ysed="
+      yseds+=( -e "$ysed" )
+      shift
+      continue
+      ;;
+  esac
+  if [ -z "$srcdir" ] ; then
+    srcdir="$1"
+  else
+    extrasrc+=( "$1" )
+  fi
+  shift
+done
+
+[ -z "$srcdir" ] && fatal "No src directory specified"
+
+#workdir=$(mktemp -d) ; trap "rm -rf $workdir" EXIT
+rm -rf tmp ; mkdir -p tmp ; workdir=tmp
+
+# Create first the lite version...
+if [ $lite = yes ] ; then
+  $mkplugin -o $workdir $srcdir "${extrasrc[@]}"
+  name=$(basename $workdir/*.phar | cut -d_ -f1)
+  suffix=$(basename $workdir/*.phar | cut -d_ -f2-)
+  echo name=$name
+  echo version=$suffix
+  mv $workdir/${name}_${suffix} ${outdir}/${name}-lite_${suffix}
+fi
+
+# Create the bound version...
+if [ $full = yes ] ; then
+  cp -a $srcdir/resources $workdir
+  # Edit plugin.yml (to remove stuff...)
+  if [ ${#yseds[@]} -eq 0 ] ; then
+    cp -a $srcdir/plugin.yml $workdir
+  else
+    sed "${yseds[@]}" $srcdir/plugin.yml > $workdir/plugin.yml
+  fi
+
+  $bind -o $workdir/src "${libpaths[@]}" $srcdir/src
+  for extra in "${extrasrc[@]}"
+  do
+    if [ -d $srcdir/$extra ] ; then
+      mkdir -p $workdir/$extra 
+      cp -a $srcdir/$extra/. $workdir/$extra/.
+    else
+      cp -a $srcdir/$extra $workdir/$extra
+    fi
+  done
+
+  $mkplugin -o $outdir $workdir "${extrasrc[@]}"
+fi
+

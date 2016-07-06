@@ -1,0 +1,11 @@
+name: modular
+version: 1.0
+main: demo\Main
+api: 2.0.0
+load: STARTUP
+depend: [libcommon]
+
+description: Modular demo
+author: aliuly
+website: https://github.com/Muirfield/libcommon
+

@@ -1,0 +1,3 @@
+@$s = new \specter\api\DummyPlayer('dummytwo')
+@\mf\common\Cmd::execAs($s->getPlayer(),'echo yeah yeah')
+@$s->close()

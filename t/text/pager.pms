@@ -1,0 +1,91 @@
+@$txt = []
+@$txt[] = "Lorem ipsum dolor sit amet,"
+@$txt[] = "consectetur adipiscing elit."
+@$txt[] = "Etiam euismod libero placerat"
+@$txt[] = "mi luctus, ac porta lorem pulvinar."
+@$txt[] = "Mauris id quam at tortor placerat"
+@$txt[] = "dignissim at ut elit. Fusce eget"
+@$txt[] = "pellentesque neque. Cras eleifend"
+@$txt[] = "cursus massa ut elementum."
+@$txt[] = "Vestibulum hendrerit sit amet metus"
+@$txt[] = "vitae scelerisque. Quisque a pharetra"
+@$txt[] = "diam, ac elementum leo. Nulla semper"
+@$txt[] = "odio a est condimentum dictum."
+@$txt[] = "Maecenas laoreet eros ut arcu"
+@$txt[] = "auctor, non hendrerit nisl aliquam."
+@$txt[] = "Nunc porta non lectus quis sagittis."
+@$txt[] = "Mauris metus dolor, placerat vitae"
+@$txt[] = "porta in, malesuada ac nisl. Nullam"
+@$txt[] = "blandit, velit sit amet lobortis"
+@$txt[] = "vulputate, metus leo efficitur elit,"
+@$txt[] = "at varius sapien nisi hendrerit"
+@$txt[] = "urna. Sed quis libero sed purus"
+@$txt[] = "consequat posuere nec sed nulla."
+@$txt[] = "Proin ullamcorper sagittis dolor ac"
+@$txt[] = "tristique. Aenean viverra ligula ac"
+@$txt[] = "arcu efficitur, eu efficitur sem"
+@$txt[] = "vulputate."
+@$txt[] = ""
+@$txt[] = "Praesent ornare lectus sed pharetra"
+@$txt[] = "imperdiet. Maecenas eget facilisis"
+@$txt[] = "massa, sed congue urna. Duis placerat"
+@$txt[] = "pretium justo eget porttitor. Etiam"
+@$txt[] = "sodales lorem in nisi posuere, sit"
+@$txt[] = "amet pretium diam scelerisque."
+
+@$tab = []
+@$tab[] = [ "Word", "Id", "Count" ]
+@$tab[] = [ "Maecenas", count($tab), rand() ]
+@$tab[] = [ "consequat", count($tab), rand() ]
+@$tab[] = [ "ligula", count($tab), rand() ]
+@$tab[] = [ "vel", count($tab), rand() ]
+@$tab[] = [ "vulputate", count($tab), rand() ]
+@$tab[] = [ "posuere", count($tab), rand() ]
+@$tab[] = [ "libero", count($tab), rand() ]
+@$tab[] = [ "tortor", count($tab), rand() ]
+@$tab[] = [ "congue", count($tab), rand() ]
+@$tab[] = [ "est", count($tab), rand() ]
+@$tab[] = [ "sed", count($tab), rand() ]
+@$tab[] = [ "lacinia", count($tab), rand() ]
+@$tab[] = [ "nulla", count($tab), rand() ]
+@$tab[] = [ "dui", count($tab), rand() ]
+@$tab[] = [ "placerat", count($tab), rand() ]
+@$tab[] = [ "lectus", count($tab), rand() ]
+@$tab[] = [ "Proin et", count($tab), rand() ]
+@$tab[] = [ "convallis", count($tab), rand() ]
+
+
+echo Beginning
+#@$n = \mf\common\Pager::getPageNumber($args)
+#echo '.$n.' '.impode(" ",$args).'
+#@$args = ["list"]
+#@$n = \mf\common\Pager::getPageNumber($args)
+#echo '.$n.' '.impode(" ",$args).'
+#@$args = ["list 3"]
+#@$n = \mf\common\Pager::getPageNumber($args)
+#echo '.$n.' '.impode(" ",$args).'
+echo ==========================================================
+@\mf\common\Pager::paginateText($ctx, 1,$txt)
+echo ==========================================================
+@\mf\common\Pager::paginateText($ctx, 1,$txt,5)
+echo ==========================================================
+@\mf\common\Pager::paginateText($ctx, 3,$txt,5)
+echo ==========================================================
+@\mf\common\Pager::paginateText($ctx, 4,$txt,5)
+echo ==========================================================
+@\mf\common\Pager::paginateText($ctx, 5,$txt,5)
+echo ==========================================================
+@\mf\common\Pager::paginateText($ctx, 6,$txt,5)
+echo ==========================================================
+@\mf\common\Pager::paginateText($ctx, 7,$txt,5)
+echo ==========================================================
+@\mf\common\Pager::paginateTable($ctx, 1,$tab,5)
+echo ==========================================================
+@\mf\common\Pager::paginateTable($ctx, 2,$tab,5)
+echo ==========================================================
+@\mf\common\Pager::paginateTable($ctx, 3,$tab,5)
+echo ==========================================================
+@\mf\common\Pager::paginateTable($ctx, 4,$tab,5)
+echo ==========================================================
+@\mf\common\Pager::paginateTable($ctx, 5,$tab,5)
+echo ==========================================================

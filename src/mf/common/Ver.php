@@ -2,14 +2,14 @@
 //= api-features
 //: - API version checking
 
-namespace aliuly\common;
+namespace mf\common;
 
 /**
  * My PocketMine Utils class
  */
 abstract class Ver {
   /** @const str VERSION plugin version string */
-  const VERSION = "1.92.0";
+  const VERSION = "2.0.0dev1";
 
   /**
    * Checks API compatibility from $api against $version.  $version is a

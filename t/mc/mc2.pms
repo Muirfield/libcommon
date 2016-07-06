@@ -1,0 +1,9 @@
+@$lc = $server->getPluginManager()->getPlugin("libcommon")
+@$mc = \mf\common\mc::get_mc()
+@$mc->load_file($lc->getFilePath().'resources/messages/spa.ini')
+
+echo '.\mf\common\mc::_("Survival").'
+echo '.\mf\common\mc::gamemodeStr(0).'
+echo '.\mf\common\mc::gamemodeStr(1).'
+echo '.\mf\common\mc::gamemodeStr(2).'
+

@@ -1,0 +1,3 @@
+@$s = new \specter\api\DummyPlayer('dummyone')
+#@\mf\common\Cmd::chat(new \pocketmine\command\ConsoleCommandSender,"Blah Blah")
+@\mf\common\Cmd::chat($s->getPlayer(),"I am here!")

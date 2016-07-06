@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 if (ini_get('phar.readonly')) {
   $cmd = escapeshellarg(PHP_BINARY);

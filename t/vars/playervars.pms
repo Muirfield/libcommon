@@ -1,0 +1,15 @@
+@$s = new \specter\api\DummyPlayer('dummytwo')
+@$p = $s->getPlayer()
+@$vars = \mf\common\ExpandVars::getVars($server)
+echo player '.$vars->get('player',$server,$p).' displayName '.$vars->get('displayName',$server,$p).'
+echo world '.$vars->get('world',$server,$p).' x:'.$vars->get('x',$server,$p).',y:'.$vars->get('y',$server,$p).',z:'.$vars->get('z',$server,$p).'
+echo yaw '.$vars->get('yaw',$server,$p).' pitch '.$vars->get('pitch',$server,$p).' bearing '.$vars->get('bearing',$server,$p).'
+
+@$p = NULL;
+echo player '.$vars->get('player',$server,$p).' displayName '.$vars->get('displayName',$server,$p).'
+echo world '.$vars->get('world',$server,$p).' x:'.$vars->get('x',$server,$p).',y:'.$vars->get('y',$server,$p).',z:'.$vars->get('z',$server,$p).'
+echo yaw '.$vars->get('yaw',$server,$p).' pitch '.$vars->get('pitch',$server,$p).' bearing '.$vars->get('bearing',$server,$p).'
+
+
+@$s->close()
+

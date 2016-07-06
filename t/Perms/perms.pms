@@ -1,0 +1,10 @@
+@ $lc = $server->getPluginManager()->getPlugin("libcommon")
+@ \mf\common\Perms::add($lc, "perms.help.me", "Helpful permission", "op")
+@ $s = new \specter\api\DummyPlayer('Sid')
+@ $p = $s->getPlayer();
+@ \mf\common\Perms::access($ctx,"perms.help.me")
+@ \mf\common\Perms::access($p,"perms.help.me")
+
+@ \mf\common\Perms::inGame($ctx)
+@ \mf\common\Perms::inGame($p)
+
