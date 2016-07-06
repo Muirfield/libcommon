@@ -17,7 +17,7 @@ $mkver src
 ymlver=$($mkver)
 if [ -n "$ymlver" ] ; then
   if [ -n "$TRAVIS_TAG" ] ; then
-    if [ "$ymlver]" != "$TRAVIS_TAG" ] ; then
+    if [ "$ymlver" != "$TRAVIS_TAG" ] ; then
       fail "Plugin.yml version and git tag mismatch"
     fi
   fi
