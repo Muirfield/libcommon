@@ -3,8 +3,17 @@ php:
 - '7.0'
 script:
 - bash test
-
-# We don't really need sudo, the next
-# two lines enable Ubuntu 14 which is needed to run tests.
 sudo: required
 dist: trusty
+before_deploy:
+- php mkplugin.php -o . .
+deploy:
+  provider: releases
+  api_key:
+    secure: zOMd8LTM0TndkazOXlDWsyuvMw6OSk1Uq8ZY3pV1FcsHyj7UkApO83jNAfRIOkhktQOUl2kzulAfi70VAOiexinyOCwLDS6vrDrKJ10h1fYUwdvAiKzXRZrlGt4SENtm7FmzHh44av2GswiUBzapEseUSPDoC5KKCKZexBCuUeAWyIx19IgnZeItA2ddiN2HeIzcfCP0OycXYJSuvlKf5XqX/RwaUEIW6j+9UGqh/oECqKBkALosq7gw+UkDrH5t+akqYfhmknFbILRNzWfrjUe2hM0opQ9FAagtTvacdeIKrezAq1YRB46uBcDl9Mby2u0UZqLh0HEZ4/VepRhJ60DuscJIkmVJlPgBByWTz5gQSxB/lYyxmRaKoDjOQ4lxOdf7bvfmazIQ3/i4kSljM5uz/rXqszMuFFQ+sZr9R8yhsHJyejRtTMkWeWy4nmu5HbBXABVQcGuQNwrnI+vbhodGcZWb8p5K3N+cirOqQ3jMAocGlVgDKu671kwsE2SAqoCbQs8A/q77aHb3lYiMqMKYLk0iwthpHQQKelhyMG7LdKiLH3KNgv4Uls1DOgVW+M+VnyvXlL+/b86GUJ6kpkJAjj75QaJQIre4XU6idLOlfqAuYnbD3R3OQUeWec3kB2y/oPmEFGEObc00ZHohetEtXyLfMHD4kw4orHw2m5w=
+  file: libcommon_v*.phar
+  file_glob: true
+  on:
+    tags: true
+    repo: Muirfield/libcommon
+
