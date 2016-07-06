@@ -29,14 +29,14 @@ API Features:
 <!-- snippet: api-features -->
 - Variable expansions
 - Misc shorcuts and pre-canned routines
+- Modular plugins
 - Scripts
+- Paginated output
 - Permission checks and utilities
+- Sub command support
 - Unit Testing functionality
 - API version checking
 - Translations
-- Paginated output
-- Modular plugins
-- Sub command support
 
 <!-- end-include -->
 
