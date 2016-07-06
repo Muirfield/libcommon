@@ -65,8 +65,8 @@ done
 
 [ -z "$srcdir" ] && fatal "No src directory specified"
 
-#workdir=$(mktemp -d) ; trap "rm -rf $workdir" EXIT
-rm -rf tmp ; mkdir -p tmp ; workdir=tmp
+workdir=$(mktemp -d) ; trap "rm -rf $workdir" EXIT
+#rm -rf tmp ; mkdir -p tmp ; workdir=tmp
 
 # Create first the lite version...
 if [ $lite = yes ] ; then
