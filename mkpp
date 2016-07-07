@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 scriptdir="$(dirname "$(readlink -f "$0")")"
 mkplugin="php $scriptdir/mkplugin.php"
 bind="php $scriptdir/binder.php"
