@@ -1,0 +1,9 @@
+echo Sleep testing
+sleep 1
+echo Done
+@ $ten = 10
+@ $one = 1
+
+sleep 1
+echo ten='.$ten.' one='.$one.'
+

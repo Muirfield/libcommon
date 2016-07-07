@@ -83,18 +83,30 @@
 //:     ;
 //:     echo You passed '.count($args).' arguments to this script.
 //:	echo Arguments: '.print_r($args,TRUE).'
+//:
+//: ### Special PMScript only commands
+//:
+//: PMScripts have special shortcut commands available:
+//:
+//: - sleep [n] : Sleep for [n] seconds (fractions are supported).
+//:   The sleep commands will pause the execution of the script for
+//:   [n] seconds and resume in the background as a Callback task.
+//:
+//: 
 
 namespace mf\common;
 
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
 use pocketmine\Server;
+use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat;
 
 use mf\common\Singleton;
 use mf\common\ExpandVars;
 use mf\common\MPMU;
 use mf\common\Cmd;
+use mf\common\PluginCallbackTask;
 
 class PMScript {
   /** @var str Tagged API for singleton use... i.e. in case of multiple versions of this class */
@@ -110,30 +122,38 @@ class PMScript {
   public $opcmds;
   /** @var mixed[] - hive variables */
   public $hive;
+  /** @var $owner - plugin that owns this resource */
+  protected $owner;
   
   /**
+   * @param PluginBase $plugin - plugin that will own this resource (needed for callbacks)
+   * @param bool $opcmd - Enable priviledge escalations
    * @param ExpandVars $vars|NULL - allow for standard variable expansion
    */
-  public function __construct(Server $srv,$opcmd = TRUE, $vars = NULL) {
+  public function __construct(PluginBase $plugin,$opcmd = TRUE, $vars = NULL) {
     $this->cache = [];
+    $this->owner = $plugin;
     if ($vars == NULL) {
-      $this->vars = ExpandVars::getVars($srv);
+      $this->vars = ExpandVars::getVars($plugin->getServer());
     } else {
       $this->vars = $vars;
     }
     $this->opcmds = $opcmd;
     $this->hive = [];
   }
+  public function getPlugin() {
+    return $this->owner;
+  }
   /**
    * Return a server wide instance...
-   * @param Server $owner - Server instance
+   * @param PluginBase $plugin - plugin that will own this resource (needed for callbacks)
    * @param bool $opcmd - allow for OP commands
    */
-  static public function getInterp(Server $owner, $opcmd = TRUE) {
+  static public function getInterp(PluginBase $plugin, $opcmd = TRUE) {
     $id = self::INSTANCE_ID . ($opcmd ? ',op' : ',no');
     $inst = Singleton::getInstance($id, self::API);
     if ($inst === NULL) {
-      $inst = new PMScript($owner, $opcmd);
+      $inst = new PMScript($plugin, $opcmd);
       Singleton::setInstance($id, $inst, self::API);
     }
     return $inst;
@@ -205,6 +225,11 @@ class PMScript {
   public function prepareScript($cmds) {
     $php = '';
     $php .= ' return function($interp,$ctx,$server,$player,$args) {'.PHP_EOL;
+    $suffix = '};';
+    $vars = [];
+    foreach (['$interp','$ctx','$server','$player','$args'] as $ln) {
+      $vars[$ln] = $ln;
+    }
     
     foreach (explode("\n",$cmds) as $ln) {
       $ln = trim($ln);
@@ -213,11 +238,31 @@ class PMScript {
         $c = substr($ln,-1);
 	$q = ($c == ':' || $c == ';') ? PHP_EOL : ";\n";
 	$php .= $this->vars->phpexpand(substr($ln,1)).$q;
+	// We track used variables here...
+	if (preg_match('/^@\s*(\$[_A-Za-z][_A-Za-z0-9]*)/',$ln,$mv)) {
+	  $vars[$mv[1]] = $mv[1];
+	  //echo 'ADDING TRACKING OF VAR:'.$mv[1].PHP_EOL;
+	}
       } else {
+        // Handle special PMScript commands
+        $scrln = preg_split('/\s+/',$ln);
+	switch ($scrln[0]) {
+	  case 'sleep':
+	    if (isset($scrln[1])) {
+	      $sleepcnt = (int)(((float)$scrln[1])*20);
+	    } else {
+	      $sleepcnt = 1;
+	    }
+	    $php .= '$server->getScheduler()->scheduleDelayedTask(new ';
+	    $php .= PluginCallbackTask::class.'($interp->getPlugin(),function() use ';
+	    $php .= '('.implode(',',$vars).') {'.PHP_EOL;
+	    $suffix = '}),'.$sleepcnt.');'.PHP_EOL.$suffix;
+	    continue;
+	}
         $php .= '  $interp->exec($ctx,'.$this->vars->phpfy($ln).');'.PHP_EOL;
       }
     }
-    $php .= '};';
+    $php .= $suffix;
     if (\pocketmine\DEBUG > 1) echo "PHP: $php\n";//##DEBUG
     return eval($php);
   }

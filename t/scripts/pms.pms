@@ -1,8 +1,8 @@
 #
 # Test the main PMScript functionality
 #
-
-@ $ii = \mf\common\PMScript::getInterp($server)
+@$lc = $server->getPluginManager()->getPlugin("libcommon")
+@ $ii = \mf\common\PMScript::getInterp($lc)
 echo '.get_class($ii).'
 
 @ $ii->runScript($ctx,"echo yes\necho no\n")

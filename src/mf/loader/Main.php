@@ -52,7 +52,7 @@ class Main extends PluginBase implements CommandExecutor{
       new PluginCallbackTask($this,[$this,"runscripts"],[]),20
     );
     $script = array_shift($this->autostart);
-    $interp = PMScript::getInterp($this->getServer());
+    $interp = PMScript::getInterp($this);
     $ctx = new ConsoleCommandSender;
     $this->getLogger()->info("Running: ".basename($script));
     $interp->runFile($ctx, $script, [], FALSE);
