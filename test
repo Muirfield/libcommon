@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 . "$(dirname "$(readlink -f "$0")")/utils/init.sh"
 . $utlib/pm.sh
@@ -33,7 +33,6 @@ phplint src utils *.php || fatal "Failed lint"
 #./bin/php7/bin/php -r 'echo 1;'
 
 install_pocketmine
-
 
 $phpcmd $scriptdir/mkplugin.php -o $MPDIR/plugins .
 

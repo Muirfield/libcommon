@@ -9,7 +9,7 @@ namespace mf\common;
  */
 abstract class Ver {
   /** @const str VERSION plugin version string */
-  const VERSION = "2.0.0dev3";
+  const VERSION = "2.0.0dev4";
 
   /**
    * Checks API compatibility from $api against $version.  $version is a

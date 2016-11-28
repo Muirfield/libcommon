@@ -28,21 +28,21 @@ like for example, ScriptPlugins.
 API Features:
 
 <!-- snippet: api-features -->
-- Variable expansions
-- Misc shorcuts and pre-canned routines
-- Modular plugins
-- Paginated output
-- Permission checks and utilities
-- Sub command support
-- Unit Testing functionality
-- Translations
-- Scripts
-- API version checking
 - Player session and state management
-- Teleport Warps and Player Homes
-- Shared listener object
-- Level.dat file access
+- Misc shorcuts and pre-canned routines
+- Unit Testing functionality
 - Teleport wrappers
+- Teleport Warps and Player Homes
+- Variable expansions
+- Permission checks and utilities
+- Shared listener object
+- Sub command support
+- Modular plugins
+- API version checking
+- Translations
+- Level.dat file access
+- Paginated output
+- Scripts
 
 <!-- end-include -->
 
