@@ -1,0 +1,24 @@
+@ $lc = $server->getPluginManager()->getPlugin("libcommon")
+
+@ $s1 = new \specter\api\DummyPlayer('Sid1')
+sleep 0.1
+@ $s1->getPlayer()->teleport($s1->getPlayer()->getLevel()->getSafeSpawn())
+sleep 0.1
+echo Sid is at '.intval($s1->getPlayer()->getX()).','.intval($s1->getPlayer()->getY()).','.intval($s1->getPlayer()->getZ()).','.$s1->getPlayer()->getLevel()->getName().'
+
+@ $s1->getPlayer()->teleport(new pocketmine\math\Vector3($s1->getPlayer()->getX(),1,$s1->getPlayer()->getZ()))
+sleep 0.1
+echo Sid is at '.intval($s1->getPlayer()->getX()).','.intval($s1->getPlayer()->getY()).','.intval($s1->getPlayer()->getZ()).','.$s1->getPlayer()->getLevel()->getName().'
+
+@ \mf\common\TPU::top($s1->getPlayer())
+sleep 0.1
+echo Sid is at '.intval($s1->getPlayer()->getX()).','.intval($s1->getPlayer()->getY()).','.intval($s1->getPlayer()->getZ()).','.$s1->getPlayer()->getLevel()->getName().'
+
+@ \mf\common\TPU::throwPlayer($s1->getPlayer())
+sleep 0.1
+echo Sid is at '.intval($s1->getPlayer()->getX()).','.intval($s1->getPlayer()->getY()).','.intval($s1->getPlayer()->getZ()).','.$s1->getPlayer()->getLevel()->getName().'
+
+echo '. \mf\common\TPU::getMaxPlayers($server,"world").'
+
+
+@ $s1->close()

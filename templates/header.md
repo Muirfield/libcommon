@@ -14,6 +14,22 @@
   foreach (["Categories"] as $attr) {
     $hdr[$attr] = (isset($meta[$attr]) ? $meta[$attr] : "N/A")."\n";
   }
+  //
+  // # Categories
+  //
+  // - Admin Tools
+  // - Anti-Griefing Tools
+  // - Chat Related
+  // - Developer Tools
+  // - Economy
+  // - Fun
+  // - General
+  // - Informational
+  // - Mechanics
+  // - Miscellaneous
+  // - Teleportation
+  // - World Editing and Management
+  // - World Generators
 ?>
 
 # <?= $hdr["name"] ?>

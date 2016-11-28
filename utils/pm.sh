@@ -3,7 +3,7 @@
 # PocketMine-MP setup test environment
 #
 installer_url="https://raw.githubusercontent.com/PocketMine/php-build-scripts/master/installer.sh"
-export MPDIR=PocketMine-MP
+[ -z "$MPDIR" ] && export MPDIR=PocketMine-MP
 
 install_pocketmine() {
   pm_install || fatal "Error install pocketmine"

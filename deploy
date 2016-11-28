@@ -1,0 +1,37 @@
+#!/bin/sh
+#
+. "$(dirname "$(readlink -f "$0")")/utils/init.sh"
+. $utlib/pm.sh
+trap 'exit $retcode' EXIT
+
+server_type="PM"
+export MPDIR="server"
+
+while [ $# -gt 0 ] ; do
+  case "$1" in
+    --server=*)
+      server_type=${1#--server=}
+      ;;
+    --directory=*)
+      export MPDIR=${1#--directory=}
+      ;;
+    *)
+      echo "Options: --server=<servertype> --directory=<outputdir>"
+      echo "Supported server types: PM"
+      exit 1
+      ;;
+  esac
+  shift
+done
+
+case "$server_type" in
+  PM)
+    echo "Deploy PocketMine-MP to \"$MPDIR\""
+    pm_install || exit 1
+    cd $MPDIR || exit 1
+    ./start.sh
+    ;;
+  *)
+    echo "Unknown server type: $server_type"
+    ;;
+esac

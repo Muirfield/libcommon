@@ -1,0 +1,18 @@
+#
+# Test WARP locations implementation
+#
+
+@ $lc = $server->getPluginManager()->getPlugin("libcommon")
+
+@ $warps = \mf\common\Warps::init($lc)
+@ $warps->load();
+
+@ $warps->set("warp1",new \pocketmine\level\Position(128,64,128,$server->getDefaultLevel()))
+echo '.print_r($warps->get("warp1"),true).'
+@ $warps->set("warp2",new \pocketmine\level\Position(228,64,128,$server->getDefaultLevel()))
+@ $warps->set("warp3",new \pocketmine\level\Position(228,64,128,$server->getDefaultLevel()))
+@ $warps->del("warp3")
+@ $warps->load()
+echo '.print_r($warps->lst(),true).'
+
+

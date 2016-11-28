@@ -1,0 +1,20 @@
+
+@ $s = new \specter\api\DummyPlayer('Sid')
+echo {RED}UID:'. \mf\common\SessionMgr::uid($s->getPlayer()) .'
+
+# create session manager
+@ $lc = $server->getPluginManager()->getPlugin("libcommon")
+@ $mgr = new \mf\common\SessionMgr($lc)
+
+@ $mgr->unsetState("test",$s->getPlayer())
+
+echo check default value
+@ if ($mgr->getState("test",$s->getPlayer(),1) !== 1) return
+
+echo check if value is there...
+@ $mgr->setState("test",$s->getPlayer(),2)
+@ if ($mgr->getState("test",$s->getPlayer(),1) !== 2) return
+
+@ $s->close();
+@ if ($mgr->getState("test",$s->getPlayer(),1) !== 1) return
+

@@ -16,7 +16,11 @@ export testdata="$scriptdir/test-data"
 #utlib="$scriptdir/utils"
 
 if [ -z "$phpcmd" ] ; then
-  phpcmd=$(which php 2>/dev/null) || phpcmd=php
+  if type php70 >/dev/null 2>&1 ; then
+    phpcmd=php70
+  else
+    phpcmd=$(which php 2>/dev/null) || phpcmd=php
+  fi
 fi
 
 export gd3tool="$phpcmd $scriptdir/gd3tool.php"

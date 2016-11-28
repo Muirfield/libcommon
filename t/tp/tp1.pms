@@ -1,0 +1,26 @@
+@ $lc = $server->getPluginManager()->getPlugin("libcommon")
+
+@ $s1 = new \specter\api\DummyPlayer('Sid')
+@ $s2 = new \specter\api\DummyPlayer('Bob')
+sleep 0.1
+echo Sid is at '.intval($s1->getPlayer()->getX()).','.intval($s1->getPlayer()->getY()).','.intval($s1->getPlayer()->getZ()).','.$s1->getPlayer()->getLevel()->getName().'
+echo Bob is at '.intval($s2->getPlayer()->getX()).','.intval($s2->getPlayer()->getY()).','.intval($s2->getPlayer()->getZ()).','.$s2->getPlayer()->getLevel()->getName().'
+
+@ $s1->getPlayer()->teleport($s1->getPlayer()->getLevel()->getSafeSpawn())
+@ $s2->getPlayer()->teleport($s1->getPlayer()->getLevel()->getSafeSpawn())
+@ \mf\common\TPU::nearBy($s2->getPlayer(),$s1->getPlayer())
+sleep 0.1
+echo Bob is at '.intval($s2->getPlayer()->getX()).','.intval($s2->getPlayer()->getY()).','.intval($s2->getPlayer()->getZ()).','.$s2->getPlayer()->getLevel()->getName().'
+
+@ $s2->getPlayer()->teleport(new pocketmine\math\Vector3(70,70,70))
+sleep 0.1
+echo Bob is at '.intval($s2->getPlayer()->getX()).','.intval($s2->getPlayer()->getY()).','.intval($s2->getPlayer()->getZ()).','.$s2->getPlayer()->getLevel()->getName().'
+
+@ \mf\common\TPU::nearBy($s2->getPlayer(),$s1->getPlayer())
+sleep 0.1
+echo Bob is at '.intval($s2->getPlayer()->getX()).','.intval($s2->getPlayer()->getY()).','.intval($s2->getPlayer()->getZ()).','.$s2->getPlayer()->getLevel()->getName().'
+
+@ $s1->close()
+@ $s2->close()
+
+

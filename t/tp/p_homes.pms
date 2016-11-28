@@ -1,0 +1,20 @@
+#
+# Test home implementation
+#
+@ $lc = $server->getPluginManager()->getPlugin("libcommon")
+@ $s1 = new \specter\api\DummyPlayer('Xid')
+
+@ $warps = \mf\common\Warps::init($lc)
+@ $warps->load();
+
+echo '.\mf\common\Warps::getHomeWarpName($s1->getPlayer()).'
+
+@ $warps->setHome($s1->getPlayer(),$s1->getPlayer())
+echo '.print_r($warps->getHome($s1->getPlayer()),true).'
+echo '.print_r($warps->lst(\mf\common\Warps::ONLY_HOMES),true).'
+@ $warps->delHome($s1->getPlayer())
+
+echo '.print_r($warps->lst(\mf\common\Warps::ONLY_HOMES),true).'
+
+@ $s1->close()
+

@@ -1,0 +1,23 @@
+#
+# Test level data stuff...
+#
+@ for ($i = 1;$i <= 3; ++$i):
+  @ $fname = "ww".$i
+  @ list($level,$err) = \mf\common\TPU::getLevelByName($server,$fname)
+  @ if ($level == NULL):
+    echo Unable to load '.$fname.': '.$err.'
+    @ continue
+  @ endif
+  @ $dat = \mf\common\LevelDat::getDat($level)
+  @ if ($dat["name"] != $fname):
+    @ \mf\common\LevelDat::setDat($level,["name"=>$fname])
+    @ $server->unloadLevel($level);
+    @ list($level,$err) = \mf\common\TPU::getLevelByName($server,$fname)
+    @ if ($level == NULL):
+      echo Unable to load '.$fname.': '.$err.'
+      @ continue
+    @ endif
+    @ $dat = \mf\common\LevelDat::getDat($level)
+  @ endif
+  echo '.print_r($dat,TRUE).'
+@ endfor

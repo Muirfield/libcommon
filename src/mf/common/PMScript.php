@@ -246,7 +246,7 @@ class PMScript {
       } else {
         // Handle special PMScript commands
         $scrln = preg_split('/\s+/',$ln);
-	switch ($scrln[0]) {
+	switch (strtolower($scrln[0])) {
 	  case 'sleep':
 	    if (isset($scrln[1])) {
 	      $sleepcnt = (int)(((float)$scrln[1])*20);
@@ -257,9 +257,13 @@ class PMScript {
 	    $php .= PluginCallbackTask::class.'($interp->getPlugin(),function() use ';
 	    $php .= '('.implode(',',$vars).') {'.PHP_EOL;
 	    $suffix = '}),'.$sleepcnt.');'.PHP_EOL.$suffix;
-	    continue;
+	    break;
+	  case 'rem':
+	    $php .= '// '.$ln.PHP_EOL;
+	    break;
+	  default:
+	    $php .= '  $interp->exec($ctx,'.$this->vars->phpfy($ln).');'.PHP_EOL;
 	}
-        $php .= '  $interp->exec($ctx,'.$this->vars->phpfy($ln).');'.PHP_EOL;
       }
     }
     $php .= $suffix;

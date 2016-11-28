@@ -9,9 +9,17 @@ if (!count($argv)) die("Must specify a sub-command\n");
 define('SUBCMD',array_shift($argv));
 
 function subcmd_gen(array $args) {
-  if (count($args) < 2) die("Must specify messages directory and source directory\n");
+  $incpath = [];
+  while (count($args)) {
+    if (substr($args[0],0,2) == '-I') {
+      $incpath[] = preg_replace('/\/*$/','/',substr(array_shift($args),2));
+    } else {
+      break;
+    }
+  }
+  if (count($args) < 2) die("Usage:\n\tcmd gen [-Idir] mcfile dir ...\n");
   $mcdir = array_shift($args);
-  mcgen($mcdir,$args);
+  mcgen($mcdir,$args,$incpath);
 }
 
 function subcmd_enc(array $args) {

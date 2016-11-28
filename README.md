@@ -3,6 +3,9 @@
 
 <!-- end-include -->
 <img id="common.png" src="https://raw.githubusercontent.com/Muirfield/libcommon/master/media/common.png" style="width:64px;height:64px" width="64" height="64"/>
+<!-- meta: API = http://muirfield.github.io/libcommon/apidocs/index.html -->
+<!-- meta: Categories = Developer Tools -->
+<!-- php:$copyright="2016"; -->
 <!-- template: header.md -->
 
 # libcommon
@@ -11,13 +14,11 @@
 - PocketMine-MP API version: 2.0.0
 - DependencyPlugins: 
 - OptionalPlugins: 
-- Categories: N/A
+- Categories: Developer Tools 
 - WebSite: https://github.com/Muirfield/libcommon
 
 
 <!-- end-include -->
-<!-- meta: API = http://muirfield.github.io/libcommon/apidocs/index.html -->
-<!-- php:$copyright="2016"; -->
 
 ## Overview
 
@@ -30,13 +31,18 @@ API Features:
 - Variable expansions
 - Misc shorcuts and pre-canned routines
 - Modular plugins
-- Scripts
 - Paginated output
 - Permission checks and utilities
 - Sub command support
 - Unit Testing functionality
-- API version checking
 - Translations
+- Scripts
+- API version checking
+- Player session and state management
+- Teleport Warps and Player Homes
+- Shared listener object
+- Level.dat file access
+- Teleport wrappers
 
 <!-- end-include -->
 
@@ -54,9 +60,10 @@ includes a number of utility scripts for development.
 - [x] gd3tool - generate documentation
 - [x] mkver - check version numbers
 - [x] mcgen - generate message catalogues and encodings
-- [ ] embed common
-- [ ] precommit - Basis for a pre-commit hook
-- [ ] test - Basis for unit testing in a CI context
+- [x] embed common
+- [x] precommit - Basis for a pre-commit hook
+- [x] test - Basis for unit testing in a CI context
+- [x] deploy - script to install a server
 
 ## PMScripts
 
@@ -143,6 +150,15 @@ Example:
     echo You passed '.count($args).' arguments to this script.
 	echo Arguments: '.print_r($args,TRUE).'
 
+### Special PMScript only commands
+
+PMScripts have special shortcut commands available:
+
+- sleep [n] : Sleep for [n] seconds (fractions are supported).
+  The sleep commands will pause the execution of the script for
+  [n] seconds and resume in the background as a Callback task.
+
+
 <!-- end-include -->
 
 ## Gd3Tool
@@ -228,14 +244,24 @@ Document will look for the following templates codes to perform substitutions:
 - [x] BaseSubCmd(extends BaseModule)
 - [x] HelpSubCmd
 - [x] BasicPlugin
+- [x] Player state | Session state | iName
+- [x] LVDat
+- [x] TP Utils 
+- [x] Warp + Homes API
 
 ## WIP
+
+- [ ] Shared listener (test)
+- [ ] Follower
+- [ ] Summon
+- [ ] TPBack
+- [ ] TP Request
+- [ ] TP stack
 
 ## Backlog
 
 - [ ] FileUtils
 - [ ] Armoritems
-- [ ] Player state | Session state | iName
 - [ ] Freeze Session
 - [ ] Chat Session
 - [ ] Invisible Session
@@ -249,7 +275,10 @@ Document will look for the following templates codes to perform substitutions:
 - [ ] Sign Utils
 - [ ] Skin utils
 - [ ] Spy Session
-- [ ] TP Utils
+
+## Others
+
+- [ ] Harness compatible with other PM forks
 
 ## Removed
 
@@ -270,7 +299,6 @@ Document will look for the following templates codes to perform substitutions:
   * All network related functions have been removed. (FastTransfer,
     GetMotd, GetMotdAsyncTask, QueryAsyncTask and xPaw's MinecraftQuery)
   * Removed Command selectors
-
 - 1.92.0: Update to new API
   * New modules
   * Bug-Fixes
