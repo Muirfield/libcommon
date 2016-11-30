@@ -11,7 +11,7 @@
 # libcommon
 
 - Summary: Muirfield common library
-- PocketMine-MP API version: 2.0.0
+- PocketMine-MP API version: 2.1.0
 - DependencyPlugins: 
 - OptionalPlugins: 
 - Categories: Developer Tools 
