@@ -1,17 +1,3 @@
-<?php if (isset($v_forum_thread)) { ?>
-**DO NOT POST QUESTIONS/BUG-REPORTS/REQUESTS IN THE REVIEWS**
-
-It is difficult to carry a conversation in the reviews.  If you
-have a question/bug-report/request please use the
-[Thread](<?= $v_forum_thread?>) for
-that.  You are more likely to get a response and help that way.
-<?php } else {?>
-
-  <!-- Add the line: -->
-  <!-- php: $v_forum_thread = \"http://forums.pocketmine.net/threads/XXXX\"; -->
-  
-<?php } ?>
-
 _NOTE:_ This documentation was last updated for version **<?=$yaml["version"]?>**.
 
 <?php if (isset($yaml["website"])) {?>
@@ -31,7 +17,7 @@ the _normal_ release does not.  You only need to download **one**.
 When clonning this repository make sure you use the `--recursive` option:
 
     git clone --recursive <?=$yaml["website"]?>.git
-    
+
 Otherwise you need to initialize sub-modules manually:
 
     git clone <?=$yaml["website"]?>.git
