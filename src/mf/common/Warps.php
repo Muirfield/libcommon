@@ -140,7 +140,7 @@ class Warps {
     $n = strtolower($name);
     if (!isset($this->warps[$n])) return [NULL,NULL];
     list($x,$y,$z,$perm,,$world,) = $this->warps[$n];
-    return [[$x,$y,$z,$world],$perm == "" ? NULL : NULL];
+    return [[$x,$y,$z,$world],$perm == "" ? NULL : $perm];
   }
   /**
    * Delete a warp
